@@ -234,7 +234,7 @@
                 0 0 40px rgba(255, 180, 0, .8),
                 0 0 80px rgba(255, 120, 0, .6);
             z-index: 2;
-            animation: glow 2s ease-in-out infinite alternate, float 4s ease-in-out infinite;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
         @keyframes glow {
@@ -531,16 +531,6 @@
                 s.style.top = Math.random() * 100 + "%";
                 s.style.animationDelay = Math.random() * 3 + "s";
                 scene.appendChild(s);
-            }
-
-            // Create shooting stars
-            for (let i = 0; i < 3; i++) {
-                const shooting = document.createElement("div");
-                shooting.className = "shooting-star";
-                shooting.style.left = Math.random() * 50 + "%";
-                shooting.style.top = Math.random() * 50 + "%";
-                shooting.style.animationDelay = Math.random() * 5 + "s";
-                scene.appendChild(shooting);
             }
         }
 
