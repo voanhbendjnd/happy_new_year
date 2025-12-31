@@ -3,64 +3,318 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Firework Wishes 🎆</title>
+    <title>Happy New Year 2026 🎆</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        /* ================= RESET ================= */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
             height: 100vh;
             overflow: hidden;
             background: radial-gradient(circle at bottom, #020111, #000);
+            color: white;
+            animation: backgroundShift 10s ease-in-out infinite;
         }
 
-        /* Canvas pháo hoa */
+        @keyframes backgroundShift {
+
+            0%,
+            100% {
+                background: radial-gradient(circle at bottom, #020111, #000);
+            }
+
+            25% {
+                background: radial-gradient(circle at 30% 70%, #1a0033, #000);
+            }
+
+            50% {
+                background: radial-gradient(circle at 70% 30%, #330011, #000);
+            }
+
+            75% {
+                background: radial-gradient(circle at center, #001a33, #000);
+            }
+        }
+
         canvas {
             position: fixed;
             inset: 0;
         }
 
-        /* LỜI CHÚC */
+        /* ================= WISH TEXT ================= */
         .wish {
             position: absolute;
-            color: white;
-            font-weight: bold;
+            font-weight: 700;
             pointer-events: none;
-            text-align: center;
             white-space: nowrap;
-
-            animation: wishFloat 2.5s ease-out forwards;
             text-shadow:
-                0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(255, 200, 100, 0.6);
+                0 0 10px rgba(255, 255, 255, .8),
+                0 0 25px currentColor;
+            animation: wishArc 3s ease-out forwards;
         }
 
-        /* Mobile chữ to hơn */
-        @media (max-width: 480px) {
-            .wish {
-                font-size: 18px !important;
+        @keyframes wishArc {
+            0% {
+                transform: translate(-50%, -50%) scale(.3) rotate(-10deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+            }
+
+            100% {
+                transform:
+                    translate(calc(-50% + var(--dx)),
+                        calc(-50% + var(--dy))) scale(1.2) rotate(15deg);
+                opacity: 0;
             }
         }
 
-        @keyframes wishFloat {
+        /* ================= COUNTDOWN ================= */
+        #countdown {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(80px, 20vw, 200px);
+            font-weight: 900;
+            opacity: 0;
+            pointer-events: none;
+            text-shadow:
+                0 0 40px rgba(255, 255, 255, .9),
+                0 0 80px gold;
+            transition: opacity .5s;
+            animation: countdownPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes countdownPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* ================= SCENE 2 ================= */
+        #scene2 {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                radial-gradient(circle at center, #18002a, #000);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease;
+            overflow: hidden;
+        }
+
+        #scene2.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ================= STARS ================= */
+        .star {
+            position: absolute;
+            background: white;
+            opacity: .6;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        .star.small {
+            width: 1px;
+            height: 1px;
+            animation-duration: 2s;
+        }
+
+        .star.medium {
+            width: 2px;
+            height: 2px;
+            animation-duration: 3s;
+        }
+
+        .star.large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            animation-duration: 4s;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: .2;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* ================= SHOOTING STAR ================= */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(45deg, transparent, white, transparent);
+            opacity: 0;
+            animation: shoot 3s linear infinite;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, white, transparent);
+            transform: translateX(-100px);
+        }
+
+        @keyframes shoot {
             0% {
-                transform: translate(-50%, -50%) scale(0.4);
+                opacity: 0;
+                transform: translateX(-100px) translateY(-100px);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(calc(100vw + 100px)) translateY(calc(100vh + 100px));
+            }
+        }
+
+        /* ================= HAPPY TEXT ================= */
+        #happy {
+            position: relative;
+            font-size: clamp(42px, 9vw, 120px);
+            font-weight: 900;
+            text-align: center;
+            cursor: pointer;
+            color: #ffd86b;
+            text-shadow:
+                0 0 20px rgba(255, 216, 107, .8),
+                0 0 40px rgba(255, 180, 0, .8),
+                0 0 80px rgba(255, 120, 0, .6);
+            z-index: 2;
+            animation: glow 2s ease-in-out infinite alternate, float 4s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow:
+                    0 0 20px rgba(255, 216, 107, .8),
+                    0 0 40px rgba(255, 180, 0, .8),
+                    0 0 80px rgba(255, 120, 0, .6);
+            }
+
+            100% {
+                text-shadow:
+                    0 0 30px rgba(255, 216, 107, 1),
+                    0 0 60px rgba(255, 180, 0, 1),
+                    0 0 120px rgba(255, 120, 0, .8),
+                    0 0 200px rgba(255, 100, 0, .4);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: translateY(-10px) scale(1.02);
+            }
+        }
+
+        /* ================= PINK TRAIL ================= */
+        .flower {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            background: radial-gradient(circle, #ff9acb, rgba(255, 154, 203, 0.2));
+            box-shadow:
+                0 0 10px #ff7ab8,
+                0 0 20px rgba(255, 122, 184, 0.8);
+            animation: bloom 1.5s ease-out forwards;
+        }
+
+        @keyframes bloom {
+            0% {
+                transform: scale(0);
                 opacity: 0;
             }
 
             30% {
                 opacity: 1;
-                transform: translate(-50%, -70%) scale(1);
             }
 
             100% {
-                transform: translate(-50%, -120%) scale(1.1);
+                transform:
+                    translate(var(--x), var(--y)) scale(.8);
+                opacity: 0;
+            }
+        }
+
+        /* ================= MAGIC SPARKLE ================= */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            pointer-events: none;
+            background: radial-gradient(circle, #fff, rgba(255, 255, 255, 0));
+            animation: sparkleAnim 1s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(3) rotate(180deg);
                 opacity: 0;
             }
         }
@@ -69,22 +323,16 @@
 
 <body>
 
-    <canvas id="fireworks"></canvas>
+    <canvas id="canvas"></canvas>
+    <div id="countdown"></div>
+
+    <div id="scene2">
+        <div id="happy"> HAPPY NEW YEAR 2026</div>
+    </div>
 
     <script>
-        /* DANH SÁCH LỜI CHÚC */
-        const wishes = [
-            "🎆 Chúc Mừng Năm Mới 2025 🎆",
-            "🌸 An Khang Thịnh Vượng 🌸",
-            "❤️ Vạn Sự Như Ý ❤️",
-            "✨ Sức Khỏe Dồi Dào ✨",
-            "🎉 Thành Công Rực Rỡ 🎉",
-            "💰 Tài Lộc Đầy Nhà 💰",
-            "😊 Bình An & Hạnh Phúc 😊"
-        ];
-
-        /* CANVAS */
-        const canvas = document.getElementById("fireworks");
+        /* ================= FIREWORK ENGINE ================= */
+        const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
         function resize() {
@@ -94,35 +342,62 @@
         resize();
         addEventListener("resize", resize);
 
-        /* FIREWORK */
         class Firework {
-            constructor() {
-                this.x = Math.random() * canvas.width;
+            constructor(x = Math.random() * canvas.width) {
+                this.x = x;
                 this.y = canvas.height;
-                this.targetY = Math.random() * canvas.height * 0.4 + 100;
-                this.color = `hsl(${Math.random() * 360},100%,60%)`;
+                this.targetY = Math.random() * canvas.height * 0.4 + 80;
+                const hue = Math.random() * 360;
+                this.color = `hsl(${hue},100%,60%)`;
+                this.secondaryColor = `hsl(${(hue + 30) % 360},100%,70%)`;
                 this.speed = Math.random() * 4 + 4;
                 this.exploded = false;
                 this.particles = [];
+                this.trail = [];
+                this.maxTrailLength = 20;
             }
-
             explode() {
-                // Hiện chữ khi nổ
                 showWish(this.x, this.y, this.color);
-
-                for (let i = 0; i < 50; i++) {
+                const particleCount = 80 + Math.random() * 40;
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = (Math.PI * 2 * i) / particleCount + Math.random() * 0.2;
+                    const speed = Math.random() * 6 + 2;
                     this.particles.push({
                         x: this.x,
                         y: this.y,
-                        angle: Math.random() * Math.PI * 2,
-                        speed: Math.random() * 4 + 1,
-                        life: 60
+                        a: angle,
+                        s: speed,
+                        l: 100 + Math.random() * 50,
+                        size: Math.random() * 3 + 1,
+                        color: Math.random() > 0.5 ? this.color : this.secondaryColor,
+                        gravity: 0.05,
+                        fade: 0.98
+                    });
+                }
+                // Add sparkle particles
+                for (let i = 0; i < 20; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 8 + 4;
+                    this.particles.push({
+                        x: this.x,
+                        y: this.y,
+                        a: angle,
+                        s: speed,
+                        l: 60 + Math.random() * 40,
+                        size: Math.random() * 2 + 0.5,
+                        color: '#ffffff',
+                        gravity: 0.02,
+                        fade: 0.95,
+                        sparkle: true
                     });
                 }
             }
-
             update() {
                 if (!this.exploded) {
+                    this.trail.push({ x: this.x, y: this.y });
+                    if (this.trail.length > this.maxTrailLength) {
+                        this.trail.shift();
+                    }
                     this.y -= this.speed;
                     if (this.y <= this.targetY) {
                         this.exploded = true;
@@ -130,66 +405,188 @@
                     }
                 } else {
                     this.particles.forEach(p => {
-                        p.x += Math.cos(p.angle) * p.speed;
-                        p.y += Math.sin(p.angle) * p.speed;
-                        p.life--;
+                        p.x += Math.cos(p.a) * p.s;
+                        p.y += Math.sin(p.a) * p.s;
+                        p.s *= p.fade;
+                        p.y += p.gravity;
+                        p.l--;
+                        if (p.sparkle) {
+                            p.size = Math.random() * 2 + 0.5;
+                        }
                     });
                 }
             }
-
             draw() {
-                ctx.fillStyle = this.color;
                 if (!this.exploded) {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                } else {
-                    this.particles.forEach(p => {
+                    // Draw trail
+                    this.trail.forEach((point, index) => {
+                        ctx.globalAlpha = index / this.trail.length * 0.5;
+                        ctx.fillStyle = this.color;
                         ctx.beginPath();
-                        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                        ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
                         ctx.fill();
                     });
+                    // Draw main firework
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = this.color;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                } else {
+                    this.particles.forEach(p => {
+                        ctx.globalAlpha = Math.max(0, p.l / 100);
+                        ctx.fillStyle = p.color;
+                        if (p.sparkle) {
+                            ctx.shadowBlur = 5;
+                            ctx.shadowColor = p.color;
+                        }
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                    });
+                    ctx.globalAlpha = 1;
                 }
             }
         }
 
-        /* HIỆN LỜI CHÚC */
+        /* ================= WISH TEXT ================= */
+        const wishes = [
+            "Chúc Mừng Năm Mới",
+            "An Khang Thịnh Vượng",
+            "Vạn Sự Như Ý",
+            "Hạnh Phúc Viên Mãn",
+            "Tài Lộc Dồi Dào",
+            "Dễ Thương Vô Hạn",
+            "Xinh Đẹp Tuyệt Trần",
+            "Ngủ Đủ Giấc"
+        ];
+
         function showWish(x, y, color) {
-            const wish = document.createElement("div");
-            wish.className = "wish";
-            wish.textContent = wishes[Math.floor(Math.random() * wishes.length)];
-
-            wish.style.left = x + "px";
-            wish.style.top = y + "px";
-            wish.style.color = color;
-            wish.style.fontSize = Math.random() * 10 + 20 + "px";
-
-            document.body.appendChild(wish);
-
-            setTimeout(() => wish.remove(), 2500);
+            const w = document.createElement("div");
+            w.className = "wish";
+            w.textContent = wishes[Math.random() * wishes.length | 0];
+            w.style.left = x + "px";
+            w.style.top = y + "px";
+            w.style.color = color;
+            w.style.fontSize = 20 + Math.random() * 14 + "px";
+            w.style.setProperty("--dx", `${Math.random() * 200 - 100}px`);
+            w.style.setProperty("--dy", `${Math.random() * -200}px`);
+            document.body.appendChild(w);
+            setTimeout(() => w.remove(), 3000);
         }
 
-        /* LOOP */
+        /* ================= LOOP ================= */
         let fireworks = [];
-
-        setInterval(() => {
-            fireworks.push(new Firework());
-        }, 700);
+        setInterval(() => fireworks.push(new Firework()), 600);
 
         (function animate() {
-            ctx.fillStyle = "rgba(0,0,0,0.25)";
+            ctx.fillStyle = "rgba(0,0,0,.25)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            fireworks.forEach((fw, i) => {
-                fw.update();
-                fw.draw();
-                if (fw.exploded && fw.particles.every(p => p.life <= 0)) {
+            fireworks.forEach((f, i) => {
+                f.update();
+                f.draw();
+                if (f.exploded && f.particles.every(p => p.l <= 0))
                     fireworks.splice(i, 1);
-                }
             });
-
             requestAnimationFrame(animate);
         })();
+
+        /* ================= COUNTDOWN ================= */
+        const cd = document.getElementById("countdown");
+        let nums = [3, 2, 1];
+
+        setTimeout(() => {
+            let i = 0;
+            cd.style.opacity = 1;
+            const interval = setInterval(() => {
+                cd.textContent = nums[i];
+                fireworks.push(new Firework(canvas.width / 2));
+                i++;
+                if (i >= nums.length) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        cd.style.opacity = 0;
+                        document.getElementById("scene2").classList.add("active");
+                        createStars();
+                    }, 800);
+                }
+            }, 1000);
+        }, 10000);
+
+        /* ================= STARS ================= */
+        function createStars() {
+            const scene = document.getElementById("scene2");
+
+            // Create regular stars with different sizes
+            for (let i = 0; i < 120; i++) {
+                const s = document.createElement("div");
+                const sizes = ['small', 'medium', 'large'];
+                const size = sizes[Math.floor(Math.random() * sizes.length)];
+                s.className = `star ${size}`;
+                s.style.left = Math.random() * 100 + "%";
+                s.style.top = Math.random() * 100 + "%";
+                s.style.animationDelay = Math.random() * 3 + "s";
+                scene.appendChild(s);
+            }
+
+            // Create shooting stars
+            for (let i = 0; i < 3; i++) {
+                const shooting = document.createElement("div");
+                shooting.className = "shooting-star";
+                shooting.style.left = Math.random() * 50 + "%";
+                shooting.style.top = Math.random() * 50 + "%";
+                shooting.style.animationDelay = Math.random() * 5 + "s";
+                scene.appendChild(shooting);
+            }
+        }
+
+        /* ================= PINK TRAIL ================= */
+        const happy = document.getElementById("happy");
+
+        function bloom(x, y) {
+            for (let i = 0; i < 14; i++) {
+                const f = document.createElement("div");
+                f.className = "flower";
+                f.style.left = x + "px";
+                f.style.top = y + "px";
+                f.style.setProperty("--x", `${Math.random() * 120 - 60}px`);
+                f.style.setProperty("--y", `${Math.random() * 120 - 60}px`);
+                document.body.appendChild(f);
+                setTimeout(() => f.remove(), 1500);
+            }
+
+            // Add sparkles
+            for (let i = 0; i < 8; i++) {
+                const s = document.createElement("div");
+                s.className = "sparkle";
+                s.style.left = (x + Math.random() * 40 - 20) + "px";
+                s.style.top = (y + Math.random() * 40 - 20) + "px";
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 1000);
+            }
+        }
+
+        // Add random sparkles around the happy text
+        setInterval(() => {
+            if (document.getElementById("scene2").classList.contains("active")) {
+                const rect = happy.getBoundingClientRect();
+                const x = rect.left + Math.random() * rect.width;
+                const y = rect.top + Math.random() * rect.height;
+
+                for (let i = 0; i < 3; i++) {
+                    const s = document.createElement("div");
+                    s.className = "sparkle";
+                    s.style.left = (x + Math.random() * 100 - 50) + "px";
+                    s.style.top = (y + Math.random() * 100 - 50) + "px";
+                    document.body.appendChild(s);
+                    setTimeout(() => s.remove(), 1000);
+                }
+            }
+        }, 2000);
     </script>
 
 </body>
